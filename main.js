@@ -17,6 +17,8 @@ gl.viewport(
 
 gl.enable(gl.DEPTH_TEST);
 
+gl.enable(gl.CULL_FACE);
+gl.cullFace(gl.BACK);
 
 // =====================
 // Shader creation
@@ -768,8 +770,16 @@ new Float32Array(projection)
 // Draw object
 // =====================
 
-function drawCube(position,scaleValues,color,useTexture=false,material=materials.default)
+function drawCube(position,scaleValues,color,useTexture=false,material=materials.default,drawingOutline=false)
 {
+
+if(toonMode && !drawingOutline)
+{
+    drawOutlineCube(
+        position,
+        scaleValues
+    );
+}
 
 let model=modelMatrix(
 
@@ -820,6 +830,41 @@ gl.TRIANGLES,
 36
 );
 
+}
+
+function drawOutlineCube(position,scaleValues)
+{
+    gl.cullFace(gl.FRONT);
+
+let outlineAmount;
+
+let maxDim=Math.max(
+    scaleValues[0],
+    scaleValues[1],
+    scaleValues[2]
+);
+
+if(maxDim<0.5)
+    outlineAmount=0.08;   // small objects
+else if(maxDim<1.5)
+    outlineAmount=0.05;   // medium objects
+else
+    outlineAmount=0.03;   // large objects
+
+	drawCube(
+    position,
+[
+    scaleValues[0]+outlineAmount,
+    scaleValues[1]+outlineAmount,
+    scaleValues[2]+outlineAmount
+],
+    [0,0,0,1],
+    false,
+    materials.default,
+    true
+);
+
+    gl.cullFace(gl.BACK);
 }
 
 const keys={};
@@ -1141,10 +1186,9 @@ textureLocation,
 3
 );
 
-// Floor
 drawCube(
 [0,-2,0],
-[9,0.2,6],
+[14,0.2,10],
 [1,1,1,1],
 true,
 materials.default
@@ -1404,15 +1448,17 @@ drawCube(
 gl.uniform1f(reflectiveObjectLocation,1.0);
 
 //cubemap for environment shading:
-drawCube(
-[0,0.5,3],
-[0.35,0.35,0.35],
-[0.9,0.9,0.9,1],
-materials.default
-);
+//drawCube(
+//[0,0.5,3],
+//[0.35,0.35,0.35],
+//[0.9,0.9,0.9,1],
+//materials.default
+//);
 
 gl.uniform1f(reflectiveObjectLocation,0.0);
 
+
+//wooden crate
 drawCube(
 [0,-0.5,1],
 [0.35,0.35,0.35],
