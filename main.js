@@ -929,6 +929,230 @@ let yoffset=-event.movementY;
 }
 );
 
+function drawDoor(x,y,z)
+{
+    // Door panel
+    drawCube(
+        [x,y,z],
+        [0.6,1.5,0.08],
+        [0.45,0.25,0.1,1],
+        false,
+        materials.wood
+    );
+
+    // Left frame
+    drawCube(
+        [x-0.65,y,z],
+        [0.08,1.55,0.10],
+        [0.3,0.15,0.05,1]
+    );
+
+    // Right frame
+    drawCube(
+        [x+0.65,y,z],
+        [0.08,1.55,0.10],
+        [0.3,0.15,0.05,1]
+    );
+
+    // Top frame
+    drawCube(
+        [x,y+1.55,z],
+        [0.73,0.08,0.10],
+        [0.3,0.15,0.05,1]
+    );
+
+    // Doorknob
+    drawCube(
+        [x+0.45,y-0.1,z+0.09],
+        [0.06,0.06,0.06],
+        [0.8,0.8,0.2,1],
+        false,
+        materials.steel
+    );
+}
+
+function drawBookshelf(position,scale,rotation=0)
+{
+let x=position[0];
+let y=position[1];
+let z=position[2];
+
+let sx=scale[0];
+let sy=scale[1];
+let sz=scale[2];
+
+let width=0.7*sx;
+let depth=0.25*sz;
+
+if(rotation===90)
+{
+    let temp=width;
+    width=depth;
+    depth=temp;
+}
+
+// Left side
+drawCube(
+[
+    x,
+    y,
+    rotation===0 ? z : z-depth
+],
+[
+rotation===0 ? 0.08*sx : 0.25*sz,
+1.2*sy,
+rotation===0 ? 0.25*sz : 0.08*sx
+],
+[0.55,0.35,0.15,1],
+false,
+materials.wood
+);
+
+// Right side
+drawCube(
+[
+    x,
+    y,
+    rotation===0 ? z : z+depth
+],
+[
+    rotation===0 ? 0.08*sx : 0.25*sz,
+    1.2*sy,
+    rotation===0 ? 0.25*sz : 0.08*sx
+],
+[0.55,0.35,0.15,1],
+false,
+materials.wood
+);
+
+// Top
+drawCube(
+[
+rotation===0 ? x : x,
+y+1.2*sy,
+rotation===0 ? z : z
+],
+[
+rotation===0 ? 0.7*sx : 0.25*sz,
+0.08*sy,
+rotation===0 ? 0.25*sz : 0.7*sx
+],
+[0.55,0.35,0.15,1],
+false,
+materials.wood
+);
+
+// Bottom
+drawCube(
+[
+rotation===0 ? x : x,
+y-1.2*sy,
+rotation===0 ? z : z
+],
+[
+rotation===0 ? 0.7*sx : 0.25*sz,
+0.08*sy,
+rotation===0 ? 0.25*sz : 0.7*sx
+],
+[0.55,0.35,0.15,1],
+false,
+materials.wood
+);
+
+// Middle shelf 1
+drawCube(
+[
+    x,
+    y+0.4*sy,
+    z
+],
+[
+    rotation===0 ? 0.7*sx : 0.25*sz,
+    0.06*sy,
+    rotation===0 ? 0.25*sz : 0.7*sx
+],
+[0.55,0.35,0.15,1],
+false,
+materials.wood
+);
+
+// Middle shelf 2
+drawCube(
+[
+    x,
+    y-0.4*sy,
+    z
+],
+[
+    rotation===0 ? 0.7*sx : 0.25*sz,
+    0.06*sy,
+    rotation===0 ? 0.25*sz : 0.7*sx
+],
+[0.55,0.35,0.15,1],
+false,
+materials.wood
+);
+
+}
+
+function drawBook(position,scale,color)
+{
+drawCube(position,scale,color,false,materials.default);
+}
+
+function drawBookshelfUnit(position,scale,rotation) {
+
+let x=position[0];
+let y=position[1];
+let z=position[2];
+
+let sx=scale[0];
+let sy=scale[1];
+let sz=scale[2];
+
+drawBookshelf(
+        position,
+        scale,
+        rotation
+    );
+
+//red book
+drawBook(
+[x,y+0.65*sy,z-0.6*sx],
+[0.15,0.25,0.07],
+[1,0,0,1]
+);
+
+//blue book
+drawBook(
+[x,y+0.71*sy,z-(0.12)-0.48*sx],
+[0.15,0.32,0.07],
+[0,0,1,1]
+);
+
+/green book
+drawBook(
+[x,y+0.70*sy,z-(0.25)-0.36*sx],
+[0.15,0.28,0.07],
+[0,1,0,1]
+);
+
+//yellow book
+drawBook(
+[x,y+0.75*sy,z-(0.37)-0.24*sx],
+[0.15,0.35,0.07],
+[1,1,0,1]
+);
+
+// purple book
+drawBook(
+[x,y+0.73*sy,z-(0.49)-0.12*sx],
+[0.15,0.31,0.07],
+[0.7,0,1,1]
+);
+
+}
+
 document.addEventListener(
 'keydown',
 function(event)
@@ -1186,6 +1410,7 @@ textureLocation,
 3
 );
 
+//floor
 drawCube(
 [0,-2,0],
 [14,0.2,10],
@@ -1194,12 +1419,10 @@ true,
 materials.default
 );
 
-
-
 // Ceiling
 drawCube(
-[0,2,0],
-[6,0.2,6],
+[0,3,0],
+[14,0.2,10],
 [0.2,0.2,0.2,1]
 );
 
@@ -1221,26 +1444,24 @@ textureLocation,
 
 // Left wall
 drawCube(
-[-4.5,0,0],
-[0.2,4,6],
+[-7,0.5,0],
+[0.2,5,10],
 [1,1,1,1],
 true
 );
-
 
 // Right wall
 drawCube(
-[4.5,0,0],
-[0.2,4,6],
+[7,0.5,0],
+[0.2,5,10],
 [1,1,1,1],
 true
 );
 
-
 // Back wall
 drawCube(
-[0,0,-3],
-[9,4,0.2],
+[0,0.5,-5],
+[14,5,0.2],
 [1,1,1,1],
 true
 );
@@ -1319,54 +1540,6 @@ true,
 materials.default
 );
 
-// Chair Seat
-
-drawCube(
-[-2.6,-1.05,1.2],
-[0.35,0.10,0.35],
-[0.7,0.4,0.2,1],
-false,
-materials.default
-);
-
-
-// Chair Back
-
-drawCube(
-[-2.6,-0.55,1.02],
-[0.35,0.70,0.08],
-[0.7,0.4,0.2,1],
-false,
-materials.default
-);
-
-
-// Chair Legs
-
-drawCube(
-[-2.78,-1.85,1.02],
-[0.06,0.75,0.06],
-[0.4,0.2,0.1,1]
-);
-
-drawCube(
-[-2.42,-1.85,1.02],
-[0.06,0.75,0.06],
-[0.4,0.2,0.1,1]
-);
-
-drawCube(
-[-2.78,-1.85,1.38],
-[0.06,0.75,0.06],
-[0.4,0.2,0.1,1]
-);
-
-drawCube(
-[-2.42,-1.85,1.38],
-[0.06,0.75,0.06],
-[0.4,0.2,0.1,1]
-);
-
 gl.uniform1f(
 isLightSourceLocation,
 1.0
@@ -1374,7 +1547,7 @@ isLightSourceLocation,
 
 //light cube
 drawCube(
-[0.0,1.2,1],
+[0.0,1.9,1],
 [0.22,0.22,0.22],
 
 lightOn ?
@@ -1391,7 +1564,7 @@ isLightSourceLocation,
 // Light holder/stem
 
 drawCube(
-[0,1.8,1],
+[0,2.5,1],
 [0.04,0.4,0.04],
 [0.6,0.6,0.6,1],
 false,
@@ -1401,8 +1574,8 @@ materials.default
 
 // Shelf
 drawCube(
-[2,0,-2.5],
-[1.5,0.15,0.5],
+[2,0,-4.2],
+[1.7,0.15,0.5],
 [0.6,0.4,0.2,1],
 false,
 materials.default
@@ -1413,8 +1586,8 @@ materials.default
 // Pot (narrower + taller)
 
 drawCube(
-[2,0.25,-2.5],
-[0.10,0.25,0.10],
+[2,0.25,-4.2],
+[0.13,0.25,0.10],
 [0.65,0.35,0.15,1]
 );
 
@@ -1422,7 +1595,7 @@ drawCube(
 // Plant stem (thin + tall)
 
 drawCube(
-[2,0.65,-2.5],
+[2,0.65,-4.2],
 [0.03,0.40,0.03],
 [0.1,0.6,0.1,1]
 );
@@ -1431,7 +1604,7 @@ drawCube(
 // Left leaf
 
 drawCube(
-[1.96,0.85,-2.5],
+[1.96,0.85,-4.2],
 [0.04,0.12,0.02],
 [0.2,0.8,0.2,1]
 );
@@ -1440,7 +1613,7 @@ drawCube(
 // Right leaf
 
 drawCube(
-[2.04,0.85,-2.5],
+[2.04,0.85,-4.2],
 [0.04,0.12,0.02],
 [0.2,0.8,0.2,1]
 );
@@ -1488,6 +1661,20 @@ drawCube([-0.35,-0.15,1],[e,e,0.35],[0.8,0.8,0.85,1],false,materials.steel);
 
 drawCube([ 0.35,-0.85,1],[e,e,0.35],[0.8,0.8,0.85,1],false,materials.steel);
 drawCube([-0.35,-0.85,1],[e,e,0.35],[0.8,0.8,0.85,1],false,materials.steel);
+
+drawDoor(
+-4.5,
+-0.4,
+-4.75
+);
+
+drawBookshelfUnit(
+[-6.5,-0.32,1.5],
+[2.2,1.2,1.2],
+90
+);
+
+
 
 requestAnimationFrame(
 render
