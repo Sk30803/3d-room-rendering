@@ -2,6 +2,21 @@
 
 An interactive 3D room renderer developed in WebGL and GLSL as part of a Computer Graphics project. The project demonstrates multiple real-time rendering techniques including lighting models, toon shading, environment mapping, material systems, texture mapping, and first-person navigation.
 
+#Running the Project
+
+The project can be opened directly in a web browser by opening project.html. However, most browsers block local texture loading for WebGL applications when files are accessed through the file system (file://). As a result, textures and cubemap images may not load correctly.
+
+To run the project properly, open a terminal in the project's root directory and start a local HTTP server:
+
+python -m http.server 8000
+
+Then open a browser and navigate to:
+
+http://localhost:8000
+
+The scene should now load correctly with all textures, cubemap images, lighting effects, and interactive controls enabled.
+
+
 ## Features
 
 ### Scene Modeling
