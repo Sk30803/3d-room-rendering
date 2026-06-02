@@ -1200,6 +1200,487 @@ drawBook(
 [0.2,0.22,0.2,1]
 );
 
+//adding books to middle shelf
+z= z + 1.8;
+y= y - 1;
+//book
+drawBook(
+[x,y+0.65*sy,z-0.6*sx],
+[0.15,0.25,0.07],
+[0,1,0,1]
+);
+
+//book
+drawBook(
+[x,y+0.71*sy,z-(0.12)-0.48*sx],
+[0.15,0.32,0.07],
+[0,0,1,1]
+);
+
+//book
+drawBook(
+[x,y+0.70*sy,z-(0.25)-0.36*sx],
+[0.15,0.28,0.07],
+[0.7,1,0,1]
+);
+
+//book
+drawBook(
+[x,y+0.75*sy,z-(0.37)-0.24*sx],
+[0.15,0.35,0.07],
+[0.6,0.4,0,1]
+);
+
+// book
+drawBook(
+[x,y+0.73*sy,z-(0.49)-0.12*sx],
+[0.15,0.31,0.07],
+[0,0,1,1]
+);
+
+// book
+drawBook(
+[x,y+0.68*sy,z-(0.61)],
+[0.15,0.27,0.07],
+[0,1,1,1]
+);
+
+}
+
+function drawCrate(x,y,z)
+{
+const e=0.03;
+
+// Wooden body
+drawCube(
+[x,y,z],
+[0.35,0.35,0.35],
+[0.40,0.25,0.10,1],
+false,
+materials.wood
+);
+
+// Front steel frame
+drawCube(
+[x,y+0.35,z+0.35],
+[0.35,e,e],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+
+drawCube(
+[x,y-0.35,z+0.35],
+[0.35,e,e],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+
+drawCube(
+[x+0.35,y,z+0.35],
+[e,0.35,e],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+
+drawCube(
+[x-0.35,y,z+0.35],
+[e,0.35,e],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+
+//Right face top
+drawCube(
+[x+0.35,y+0.35,z],
+[e,e,0.35],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+
+//Right face bottom
+drawCube(
+[x+0.35,y-0.35,z],
+[e,e,0.35],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+
+//Right face left vertical
+drawCube(
+[x+0.35,y,z-0.35],
+[e,0.35,e],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+
+//Right face right vertical
+drawCube(
+[x+0.35,y,z+0.35],
+[e,0.35,e],
+[0.8,0.8,0.85,1],
+false,
+materials.steel
+);
+}
+
+function drawPlant(x,y,z)
+{
+    // Pot
+    drawCube(
+    [x,y,z],
+    [0.20,0.20,0.18],
+    [0.65,0.35,0.15,1]
+    );
+
+    // Stem
+    drawCube(
+    [x,y+0.40,z],
+    [0.03,0.40,0.03],
+    [0.1,0.6,0.1,1]
+    );
+
+    // Left leaf
+    drawCube(
+    [x-0.04,y+0.60,z],
+    [0.04,0.12,0.02],
+    [0.2,0.8,0.2,1]
+    );
+
+    // Right leaf
+    drawCube(
+    [x+0.04,y+0.60,z],
+    [0.04,0.12,0.02],
+    [0.2,0.8,0.2,1]
+    );
+
+}
+
+function drawTV(x,y,z)
+{
+    // Frame
+    drawCube(
+    [x,y,z],
+    [1.4,0.9,0.04],
+    [0.9,0.9,0.95,1],
+    false,
+    materials.steel
+    );
+
+    // Screen
+    drawCube(
+    [x,y,z+0.05],
+    [1.3,0.8,0.05],
+    [0.02,0.02,0.08,1],
+    false,
+    materials.default
+    );
+}
+
+function drawRemote(x,y,z)
+{
+    drawCube(
+    [x,y,z],
+    [0.1,0.03,0.25],
+    [0.08,0.08,0.08,1],
+    false,
+    materials.default
+    );
+//remote buttons
+y+= 0.03;
+x+= 0.06;
+z-= 0.05;
+//power red button
+    drawCube(
+[x,y+0.02,z-0.08],
+[0.015,0.005,0.015],
+[1,0,0,1]
+);
+
+//Front grey button
+drawCube(
+[x-0.1,y+0.02,z-0.08],
+[0.015,0.005,0.015],
+[0.5,0.5,0.5,1]
+);
+
+//Centre buttons (4 grey)
+x+= -0.06;
+z-= -0.05;
+
+//Top left:
+
+drawCube(
+[x-0.03,y+0.02,z+0.05],
+[0.015,0.005,0.015],
+[0.5,0.5,0.5,1]
+);
+
+//Top right:
+
+drawCube(
+[x+0.03,y+0.02,z+0.05],
+[0.015,0.005,0.015],
+[0.5,0.5,0.5,1]
+);
+
+//Bottom left:
+
+drawCube(
+[x-0.03,y+0.02,z+0.11],
+[0.015,0.005,0.015],
+[0.5,0.5,0.5,1]
+);
+
+//Bottom right:
+
+drawCube(
+[x+0.03,y+0.02,z+0.11],
+[0.015,0.005,0.015],
+[0.5,0.5,0.5,1]
+);
+
+}
+
+function drawSofa(x,y,z,s=1.5)
+{
+    // Seat
+    drawCube(
+    [x,y,z],
+    [0.45*s,0.20*s,1.0*s],
+    [0.25,0.25,0.30,1],
+    false,
+    materials.default
+    );
+
+    // Backrest
+    drawCube(
+    [x+0.35*s,y+0.50*s,z],
+    [0.10*s,0.35*s,1.0*s],
+    [0.22,0.22,0.28,1],
+    false,
+    materials.default
+    );
+
+    // Front armrest
+    drawCube(
+    [x,y+0.15*s,z-0.90*s],
+    [0.45*s,0.35*s,0.10*s],
+    [0.22,0.22,0.28,1],
+    false,
+    materials.default
+    );
+
+    // Back armrest
+    drawCube(
+    [x,y+0.15*s,z+0.90*s],
+    [0.45*s,0.35*s,0.10*s],
+    [0.22,0.22,0.28,1],
+    false,
+    materials.default
+    );
+
+    // Left cushion
+    drawCube(
+    [x,y+0.12*s,z-0.45*s],
+    [0.40*s,0.10*s,0.40*s],
+    [0.35,0.35,0.42,1]
+    );
+
+    // Right cushion
+    drawCube(
+    [x,y+0.12*s,z+0.45*s],
+    [0.40*s,0.10*s,0.40*s],
+    [0.35,0.35,0.42,1]
+    );
+}
+
+function drawTable(x,y,z,s=1.0)
+{
+    // Table top
+
+    gl.activeTexture(gl.TEXTURE0);
+
+    gl.bindTexture(
+    gl.TEXTURE_2D,
+    texture
+    );
+
+    gl.uniform1i(
+    textureLocation,
+    0
+    );
+
+    drawCube(
+    [x,y,z],
+    [1.2*s,0.15*s,0.8*s],
+    [1,1,1,1],
+    true,
+    materials.default
+    );
+
+    // Table legs
+
+    gl.activeTexture(gl.TEXTURE1);
+
+    gl.bindTexture(
+    gl.TEXTURE_2D,
+    legTexture
+    );
+
+    gl.uniform1i(
+    textureLocation,
+    1
+    );
+
+    drawCube(
+    [x-0.9*s,y-0.8*s,z-0.5*s],
+    [0.12*s,0.8*s,0.12*s],
+    [1,1,1,1],
+    true,
+    materials.default
+    );
+
+    drawCube(
+    [x+0.9*s,y-0.8*s,z-0.5*s],
+    [0.12*s,0.8*s,0.12*s],
+    [1,1,1,1],
+    true,
+    materials.default
+    );
+
+    drawCube(
+    [x-0.9*s,y-0.8*s,z+0.5*s],
+    [0.12*s,0.8*s,0.12*s],
+    [1,1,1,1],
+    true,
+    materials.default
+    );
+
+    drawCube(
+    [x+0.9*s,y-0.8*s,z+0.5*s],
+    [0.12*s,0.8*s,0.12*s],
+    [1,1,1,1],
+    true,
+    materials.default
+    );
+}
+
+function drawLaptopSetup(x,y,z,s=1.0)
+{
+    // Screen frame
+    drawCube(
+    [x,y+0.2,z],
+    [0.45*s,0.30*s,0.03*s],
+    [0.8,0.8,0.85,1]
+    );
+
+    // Screen
+    drawCube(
+    [x,y+0.2,z+0.04*s],
+    [0.40*s,0.25*s,0.01*s],
+    [0.02,0.02,0.08,1]
+    );
+
+    // Stand
+    drawCube(
+    [x,y-0.25*s,z],
+    [0.03*s,0.20*s,0.03*s],
+    [0.2,0.2,0.2,1]
+    );
+
+    // Base
+    drawCube(
+    [x,y-0.38*s,z],
+    [0.15*s,0.02*s,0.10*s],
+    [0.2,0.2,0.2,1]
+    );
+
+// Keyboard
+drawCube(
+[x,y-0.38*s,z+0.30*s],
+[0.29*s,0.04*s,0.14*s],
+[0.08,0.08,0.08,1]
+);
+
+// Mouse
+drawCube(
+[x+0.39*s,y-0.38*s,z+0.30*s],
+[0.06*s,0.03*s,0.07*s],
+[0.1,0.1,0.1,1]
+);
+}
+
+function drawClock(x,y,z,s=1.0)
+{
+//black outline:
+drawCube(
+    [x,y,z-0.03],
+    [0.30*s,0.30*s,0.03*s],
+    [0,0,0,1]
+    );
+
+    // Clock body
+    drawCube(
+    [x,y,z],
+    [0.25*s,0.25*s,0.03*s],
+    [0.95,0.95,0.95,1]
+    );
+
+    // Center hub
+    drawCube(
+    [x,y,z+0.05*s],
+    [0.01*s,0.01*s,0.01*s],
+    [0,0,0,1]
+    );
+
+    // Hour hand
+    drawCube(
+    [x,y+0.06*s,z+0.05*s],
+    [0.01*s,0.05*s,0.005*s],
+    [0,0,0,1]
+    );
+
+    // Minute hand
+    drawCube(
+    [x+0.07*s,y,z+0.05*s],
+    [0.065*s,0.01*s,0.005*s],
+    [0,0,0,1]
+    );
+
+    // 12 marker
+    drawCube(
+    [x,y+0.18*s,z+0.05*s],
+    [0.01*s,0.02*s,0.005*s],
+    [0,0,0,1]
+    );
+
+    // 3 marker
+    drawCube(
+    [x+0.18*s,y,z+0.05*s],
+    [0.02*s,0.01*s,0.005*s],
+    [0,0,0,1]
+    );
+
+    // 6 marker
+    drawCube(
+    [x,y-0.18*s,z+0.05*s],
+    [0.01*s,0.02*s,0.005*s],
+    [0,0,0,1]
+    );
+
+    // 9 marker
+    drawCube(
+    [x-0.18*s,y,z+0.05*s],
+    [0.02*s,0.01*s,0.005*s],
+    [0,0,0,1]
+    );
 }
 
 document.addEventListener(
@@ -1462,7 +1943,7 @@ textureLocation,
 //floor
 drawCube(
 [0,-2,0],
-[14,0.2,10],
+[6,0.2,7.5],
 [1,1,1,1],
 true,
 materials.default
@@ -1471,7 +1952,7 @@ materials.default
 // Ceiling
 drawCube(
 [0,3,0],
-[14,0.2,10],
+[6,0.2,7.5],
 [0.2,0.2,0.2,1]
 );
 
@@ -1493,16 +1974,16 @@ textureLocation,
 
 // Left wall
 drawCube(
-[-7,0.5,0],
-[0.2,5,10],
+[-6,0.5,0],
+[0.2,3,7.5],
 [1,1,1,1],
 true
 );
 
 // Right wall
 drawCube(
-[7,0.5,0],
-[0.2,5,10],
+[6,0.5,0],
+[0.2,3,7.5],
 [1,1,1,1],
 true
 );
@@ -1510,83 +1991,9 @@ true
 // Back wall
 drawCube(
 [0,0.5,-5],
-[14,5,0.2],
+[6,3,0.2],
 [1,1,1,1],
 true
-);
-
-// Table top
-
-gl.activeTexture(
-    gl.TEXTURE0
-    );
-    
-    gl.bindTexture(
-    gl.TEXTURE_2D,
-    texture
-    );
-    
-    gl.uniform1i(
-    textureLocation,
-    0
-    );
-    
-
-drawCube(
-    [0,-1,0.8],
-    [1.2,0.15,0.8],
-    [1,1,1,1],
-    true,
-    materials.default
-    );
-
-
-// Table legs
-
-gl.activeTexture(
-    gl.TEXTURE1
-    );
-    
-    gl.bindTexture(
-    gl.TEXTURE_2D,
-    legTexture
-    );
-
-    gl.uniform1i(
-        textureLocation,
-        1
-        );
-
-drawCube(
-[-0.9,-1.8,0.3],
-[0.12,0.8,0.12],
-[1,1,1,1],
-true,
-materials.default
-);
-
-drawCube(
-[0.9,-1.8,0.3],
-[0.12,0.8,0.12],
-[1,1,1,1],
-true,
-materials.default
-);
-
-drawCube(
-[-0.9,-1.8,1.3],
-[0.12,0.8,0.12],
-[1,1,1,1],
-true,
-materials.default
-);
-
-drawCube(
-[0.9,-1.8,1.3],
-[0.12,0.8,0.12],
-[1,1,1,1],
-true,
-materials.default
 );
 
 gl.uniform1f(
@@ -1630,43 +2037,6 @@ false,
 materials.default
 );
 
-
-// Decorative cube / plant pot
-// Pot (narrower + taller)
-
-drawCube(
-[2,0.25,-4.2],
-[0.13,0.25,0.10],
-[0.65,0.35,0.15,1]
-);
-
-
-// Plant stem (thin + tall)
-
-drawCube(
-[2,0.65,-4.2],
-[0.03,0.40,0.03],
-[0.1,0.6,0.1,1]
-);
-
-
-// Left leaf
-
-drawCube(
-[1.96,0.85,-4.2],
-[0.04,0.12,0.02],
-[0.2,0.8,0.2,1]
-);
-
-
-// Right leaf
-
-drawCube(
-[2.04,0.85,-4.2],
-[0.04,0.12,0.02],
-[0.2,0.8,0.2,1]
-);
-
 gl.uniform1f(reflectiveObjectLocation,1.0);
 
 //cubemap for environment shading:
@@ -1680,37 +2050,6 @@ gl.uniform1f(reflectiveObjectLocation,1.0);
 gl.uniform1f(reflectiveObjectLocation,0.0);
 
 
-//wooden crate
-drawCube(
-[0,-0.5,1],
-[0.35,0.35,0.35],
-[0.55,0.35,0.15,1],
-false,
-materials.wood
-);
-
-const e=0.03;
-
-//Vertical edges (4)
-drawCube([ 0.35,-0.5, 1.35],[e,0.35,e],[0.8,0.8,0.85,1],false,materials.steel);
-drawCube([-0.35,-0.5, 1.35],[e,0.35,e],[0.8,0.8,0.85,1],false,materials.steel);
-drawCube([ 0.35,-0.5, 0.65],[e,0.35,e],[0.8,0.8,0.85,1],false,materials.steel);
-drawCube([-0.35,-0.5, 0.65],[e,0.35,e],[0.8,0.8,0.85,1],false,materials.steel);
-
-//Top front/back edges (4)
-drawCube([0,-0.15,1.35],[0.35,e,e],[0.8,0.8,0.85,1],false,materials.steel);
-drawCube([0,-0.15,0.65],[0.35,e,e],[0.8,0.8,0.85,1],false,materials.steel);
-
-drawCube([0,-0.85,1.35],[0.35,e,e],[0.8,0.8,0.85,1],false,materials.steel);
-drawCube([0,-0.85,0.65],[0.35,e,e],[0.8,0.8,0.85,1],false,materials.steel);
-
-//Top side edges (4)
-drawCube([ 0.35,-0.15,1],[e,e,0.35],[0.8,0.8,0.85,1],false,materials.steel);
-drawCube([-0.35,-0.15,1],[e,e,0.35],[0.8,0.8,0.85,1],false,materials.steel);
-
-drawCube([ 0.35,-0.85,1],[e,e,0.35],[0.8,0.8,0.85,1],false,materials.steel);
-drawCube([-0.35,-0.85,1],[e,e,0.35],[0.8,0.8,0.85,1],false,materials.steel);
-
 drawDoor(
 -4.5,
 -0.4,
@@ -1718,12 +2057,68 @@ drawDoor(
 );
 
 drawBookshelfUnit(
-[-6.5,-0.32,1.5],
+[-5.5,-0.32,1.5],
 [2.2,1.2,1.2],
 90
 );
 
+drawCrate(
+-5.3,
+1.6,
+0.7
+);
 
+drawPlant(
+-5.5,
+1.4,
+2.1
+);
+
+drawTV(
+2,
+1.5,
+-4.6
+);
+
+//draw tv wire
+drawCube(
+[1.5,0.7,-4.6],
+[0.03,0.8,0.01],
+[0.05,0.05,0.05,1]
+);
+
+drawRemote(
+2.25,
+0.22,
+-4.2
+);
+
+drawSofa(
+5.1,
+-1.6,
+0.5
+);
+
+drawTable(
+0,
+-1,
+0.8,
+1.5
+);
+
+drawLaptopSetup(
+-1,
+-0.30,
+0.4,
+1.2
+);
+
+drawClock(
+-2.5,
+1.5,
+-4.7,
+2
+);
 
 requestAnimationFrame(
 render
