@@ -2096,20 +2096,21 @@ drawRemote(
 drawSofa(
 5.1,
 -1.6,
-0.5
+2,
+2
 );
 
 drawTable(
 0,
 -1,
-0.8,
+2,
 1.5
 );
 
 drawLaptopSetup(
 -1,
 -0.30,
-0.4,
+1,
 1.2
 );
 
