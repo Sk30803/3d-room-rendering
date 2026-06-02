@@ -308,28 +308,28 @@ function loadCubeMap()
     const faces=[
 {
  target:gl.TEXTURE_CUBE_MAP_POSITIVE_X,
- url:'cubemap/rightface.JPG'
+ url:'cubemap2/rightface.JPG'
 },
 {
  target:gl.TEXTURE_CUBE_MAP_NEGATIVE_X, 
-url:'cubemap/leftface.JPG'
+url:'cubemap2/leftface.JPG'
 },
 {
  target:gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
- url:'cubemap/topface.JPG'
+ url:'cubemap2/topface.JPG'
 },
 {
  target:gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
- url:'cubemap/bottomface.JPG'
+ url:'cubemap2/bottomface.JPG'
 },
 {
  target:gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
- url:'cubemap/frontface.JPG'
+ url:'cubemap2/frontface.JPG'
 },
 {
  target:gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
 
- url:'cubemap/backface.JPG'
+ url:'cubemap2/backface.JPG'
 }
     ];
 
@@ -2037,18 +2037,6 @@ false,
 materials.default
 );
 
-gl.uniform1f(reflectiveObjectLocation,1.0);
-
-//cubemap for environment shading:
-//drawCube(
-//[0,0.5,3],
-//[0.35,0.35,0.35],
-//[0.9,0.9,0.9,1],
-//materials.default
-//);
-
-gl.uniform1f(reflectiveObjectLocation,0.0);
-
 
 drawDoor(
 -4.5,
@@ -2120,6 +2108,18 @@ drawClock(
 -4.7,
 2
 );
+
+gl.uniform1f(reflectiveObjectLocation,1.0);
+
+//cubemap for environment shading:
+drawCube(
+[0,2,5],
+[0.35,0.35,0.35],
+[0.9,0.9,0.9,1],
+materials.default
+);
+
+gl.uniform1f(reflectiveObjectLocation,0.0);
 
 requestAnimationFrame(
 render
