@@ -82,6 +82,8 @@ wallImage.src='wallpaper5.jpg';
 
 carpetImage.src='carpet.jpg';
 
+let showCubeMapObject = false;
+
 image.onload=function()
 {
 
@@ -875,6 +877,14 @@ function degToRad(degrees)
 {
     return degrees*Math.PI/180;
 }
+
+document.addEventListener("keydown", function(event)
+{
+    if(event.key === "e" || event.key === "E")
+    {
+        showCubeMapObject = !showCubeMapObject;
+    }
+});
 
 document.addEventListener(
 'mousemove',
@@ -2109,6 +2119,8 @@ drawClock(
 2
 );
 
+if(showCubeMapObject){
+
 gl.uniform1f(reflectiveObjectLocation,1.0);
 
 //cubemap for environment shading:
@@ -2120,6 +2132,7 @@ materials.default
 );
 
 gl.uniform1f(reflectiveObjectLocation,0.0);
+}
 
 requestAnimationFrame(
 render
