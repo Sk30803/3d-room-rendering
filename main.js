@@ -55,6 +55,23 @@ gl.linkProgram(program);
 
 gl.useProgram(program);
 
+let spotlightOn=false;
+let spotlightPos =[0,-0.5,2.0];
+let spotlightDir = [-1,0,0];
+
+let lightColorIndex = 0;
+
+const lightColors =
+[
+    [1,1,1], // White
+    [1,1,0], // Yellow
+    [1,0,0], // Red
+    [0,1,0], // Green
+    [0,0,1], // Blue
+    [0,1,1]  // Cyan
+];
+
+let lightColor=[1.0,1.0,1.0];
 
 const texture=gl.createTexture();
 
@@ -83,6 +100,14 @@ wallImage.src='wallpaper5.jpg';
 carpetImage.src='carpet.jpg';
 
 let showCubeMapObject = false;
+
+let mirrorWall = false;
+
+let visualMode = 0;
+
+let ceilingLightPos = [2.0,1.9,0];
+
+let shelfSpotlightPos = [0.5,-0.2,2.2];
 
 image.onload=function()
 {
@@ -300,6 +325,7 @@ carpetImage.onload=function()
 
 };
 
+
 function loadCubeMap()
 {
     gl.bindTexture(
@@ -308,6 +334,7 @@ function loadCubeMap()
     );
 
     const faces=[
+
 {
  target:gl.TEXTURE_CUBE_MAP_POSITIVE_X,
  url:'cubemap2/rightface.JPG'
@@ -591,6 +618,31 @@ tx,ty,tz,1
 // =====================
 // Uniforms
 // =====================
+
+const lightColorLocation=
+gl.getUniformLocation(
+program,
+"lightColor"
+);
+
+const spotlightOnLocation=
+gl.getUniformLocation(
+program,
+"spotlightOn"
+);
+
+const spotDirectionLocation=
+gl.getUniformLocation(
+program,
+"spotDirection"
+);
+
+const spotCutoffLocation=
+gl.getUniformLocation(
+program,
+"spotCutoff"
+);
+
 const materials =
 {
     default:
@@ -680,6 +732,12 @@ const lightPosLocation=
 gl.getUniformLocation(
 program,
 "lightPos"
+);
+
+const spotLightPosLocation=
+gl.getUniformLocation(
+program,
+"spotLightPos"
 );
 
 const modelLocation=
@@ -884,6 +942,20 @@ document.addEventListener("keydown", function(event)
     {
         showCubeMapObject = !showCubeMapObject;
     }
+
+if(event.key==="c" || event.key==="C")
+{
+if(visualMode===3) {return;}  //no visual effect when light is on.
+
+    lightColorIndex=
+    (lightColorIndex+1)
+    %
+    lightColors.length;
+
+    lightColor=
+    lightColors[lightColorIndex];
+}
+
 });
 
 document.addEventListener(
@@ -1693,6 +1765,99 @@ drawCube(
     );
 }
 
+function drawSpotlightSource()
+{
+
+if (spotlightOn) {
+gl.uniform1f(
+isLightSourceLocation,
+spotlightOn ? 1.0 : 0.0
+);
+    drawCube(
+    spotlightPos,
+    [0.025,0.025,0.025],
+    [lightColor[0],lightColor[1],lightColor[2],1]
+    );
+
+gl.uniform1f(
+isLightSourceLocation,
+0.0
+);
+
+}
+}
+
+function drawShelfSpotlight()
+{
+    if(visualMode!==4)
+    {
+        return;
+    }
+
+    gl.uniform1f(
+    isLightSourceLocation,
+    1.0
+    );
+
+    drawCube(
+    shelfSpotlightPos,
+    [0.25,0.25,0.25],
+    [lightColor[0],lightColor[1],lightColor[2],1]
+    );
+
+    gl.uniform1f(
+    isLightSourceLocation,
+    0.0
+    );
+
+    // beam
+    drawCube(
+    [
+        shelfSpotlightPos[0]-2.5,
+        shelfSpotlightPos[1],
+        shelfSpotlightPos[2]
+    ],
+    [2.5,0.01,0.01],
+    [lightColor[0],lightColor[1],lightColor[2],0.5]
+    );
+
+}
+
+function drawCeilingLight()
+{
+    let x = ceilingLightPos[0];
+    let y = ceilingLightPos[1];
+    let z = ceilingLightPos[2];
+
+    gl.uniform1f(
+    isLightSourceLocation,
+    visualMode===1 ? 0.0 : 1.0
+    );
+
+    // Light cube
+    drawCube(
+    [x,y,z],
+    [0.22,0.22,0.22],
+    lightOn ?
+    [lightColor[0],lightColor[1],lightColor[2],1] :
+    [0.3,0.3,0.3,1]
+    );
+
+    gl.uniform1f(
+    isLightSourceLocation,
+    0.0
+    );
+
+    // Stem
+    drawCube(
+    [x,y+0.6,z],
+    [0.04,0.4,0.04],
+    [0.6,0.6,0.6,1],
+    false,
+    materials.default
+    );
+}
+
 document.addEventListener(
 'keydown',
 function(event)
@@ -1701,15 +1866,10 @@ function(event)
 
     keys[key]=true;
 
-if(key==='t')
+if(event.key==="v" || event.key==="V")
 {
-    toonMode=!toonMode;
+    visualMode=(visualMode+1)%5;
 }
-
-    if(key==='l')
-    {
-        lightOn=!lightOn;
-    }
 
 });
 
@@ -1801,6 +1961,76 @@ xz,yz,zz,0,
 
 function render()
 {
+
+if(visualMode===0) // Normal
+{
+    lightOn=true;
+    spotlightOn=false;
+    toonMode=false;
+}
+else if(visualMode===1) // Spotlight
+{
+    lightOn=true;
+    spotlightOn=true;
+    toonMode=false;
+
+spotlightPos =
+    [
+        cameraX + cameraFront[0]*0.8,
+        cameraY + cameraFront[1]*0.8,
+        cameraZ + cameraFront[2]*0.8
+    ];
+
+    spotlightDir =
+    [
+        cameraFront[0],
+        cameraFront[1],
+        cameraFront[2]
+    ];
+
+}
+else if(visualMode===2) // Toon
+{
+    lightOn=true;
+    spotlightOn=false;
+    toonMode=true;
+}
+else if(visualMode===3) // Lights Off
+{
+    lightOn=false;
+    spotlightOn=false;
+    toonMode=false;
+}
+
+else if(visualMode===4)
+{
+    lightOn=true;
+    spotlightOn=true;
+    toonMode=false;
+
+    spotlightPos =
+    [
+        0.5,
+        -0.2,
+        2.2
+    ];
+
+    spotlightDir =
+    [
+        -1.0,
+        0.0,
+        0.0
+    ];
+}
+
+gl.uniform3fv(
+lightColorLocation,
+new Float32Array(
+lightColor
+)
+);
+
+
 gl.uniform1f(
 toonModeLocation,
 toonMode ? 1.0 : 0.0
@@ -1831,10 +2061,34 @@ materialShininessLocation,
 32.0
 );
 
+gl.uniform1f(
+spotlightOnLocation,
+spotlightOn ? 1.0 : 0.0
+);
+
+gl.uniform3fv(
+spotDirectionLocation,
+spotlightDir
+);
+
+gl.uniform1f(
+spotCutoffLocation,
+0.95
+);
+
 gl.uniform3fv(
 lightPosLocation,
 new Float32Array(
-[0.0,1.2,1]
+[ceilingLightPos[0],
+ceilingLightPos[1]-0.7,
+ceilingLightPos[2]]
+)
+);
+
+gl.uniform3fv(
+spotLightPosLocation,
+new Float32Array(
+spotlightPos
 )
 );
 
@@ -1990,6 +2244,9 @@ drawCube(
 true
 );
 
+
+
+
 // Right wall
 drawCube(
 [6,0.5,0],
@@ -2006,36 +2263,7 @@ drawCube(
 true
 );
 
-gl.uniform1f(
-isLightSourceLocation,
-1.0
-);
-
-//light cube
-drawCube(
-[0.0,1.9,1],
-[0.22,0.22,0.22],
-
-lightOn ?
-[1,1,1,1] :
-[0.3,0.3,0.3,1]
-);
-
-gl.uniform1f(
-isLightSourceLocation,
-0.0
-);
-
-
-// Light holder/stem
-
-drawCube(
-[0,2.5,1],
-[0.04,0.4,0.04],
-[0.6,0.6,0.6,1],
-false,
-materials.default
-);
+drawCeilingLight();
 
 
 // Shelf
@@ -2126,13 +2354,19 @@ gl.uniform1f(reflectiveObjectLocation,1.0);
 //cubemap for environment shading:
 drawCube(
 [0,2,5],
-[0.35,0.35,0.35],
+[1.05,1.05,1.05],
 [0.9,0.9,0.9,1],
 materials.default
 );
 
 gl.uniform1f(reflectiveObjectLocation,0.0);
 }
+
+drawSpotlightSource();
+
+drawShelfSpotlight();
+
+
 
 requestAnimationFrame(
 render

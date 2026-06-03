@@ -37,6 +37,8 @@ uniform float brightness;
 uniform sampler2D uTexture;
 uniform float useTexture;
 uniform vec3 lightPos;
+uniform vec3 spotLightPos;
+uniform vec3 lightColor;
 uniform float lightOn;
 uniform float isLightSource;
 uniform vec3 viewPos;
@@ -46,6 +48,10 @@ uniform samplerCube uCubeMap;
 uniform float materialDiffuse;
 uniform float materialSpecular;
 uniform float materialShininess;
+
+uniform float spotlightOn;
+uniform vec3 spotDirection;
+uniform float spotCutoff;
 
 varying vec2 vTexCoord;
 varying vec3 vNormal;
@@ -66,9 +72,22 @@ if(useTexture>0.5)
 
 vec3 norm=normalize(vNormal);
 
+vec3 activeLightPos=
+(spotlightOn>0.5)
+?
+spotLightPos
+:
+lightPos;
+
 vec3 lightDir=
 normalize(
-lightPos-vFragPos
+activeLightPos-vFragPos
+);
+
+float spotFactor=
+dot(
+    normalize(-lightDir),
+    normalize(spotDirection)
 );
 
 float diff=
@@ -76,6 +95,14 @@ max(
 dot(norm,lightDir),
 0.0
 );
+
+if(spotlightOn>0.5)
+{
+    if(spotFactor<spotCutoff)
+    {
+        diff=0.0;
+    }
+}
 
 vec3 viewDir=
 normalize(
@@ -110,6 +137,14 @@ pow(
     max(dot(viewDir,specReflectDir),0.0),
     materialShininess
 );
+
+if(spotlightOn>0.5)
+{
+    if(spotFactor<spotCutoff)
+    {
+        spec=0.0;
+    }
+}
 
 float distance=
 length(
@@ -151,17 +186,31 @@ if(isLightSource>0.5)
 }
 else
 {
-    finalColor=
-    vec4(
-        baseColor.rgb*lighting,
-        baseColor.a
-    );
+    if(spotlightOn>0.5)
+    {
+        finalColor=
+        vec4(
+            baseColor.rgb*ambient +
+            baseColor.rgb*lightColor*((diff*1.9)+(spec*1.2)),
+            baseColor.a
+        );
+    }
+    else
+    {
+        finalColor=
+vec4(
+    baseColor.rgb *
+    lightColor *
+    lighting,
+    baseColor.a
+);
+    }
 }
 
-    gl_FragColor =
-    vec4(
-        finalColor.rgb * brightness,
-        finalColor.a
-    );
+gl_FragColor =
+vec4(
+    finalColor.rgb * brightness,
+    finalColor.a
+);
 }
 `;
